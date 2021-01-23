@@ -1,7 +1,6 @@
-package com.example.dogs.NetworkCalls
+package com.example.dogs.networkcalls
 
 import com.example.dogs.model.DogBreed
-import io.reactivex.Single
 import retrofit2.http.GET
 
 interface DogsApi {

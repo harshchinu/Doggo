@@ -1,4 +1,4 @@
-package com.example.dogs.view.DogList.Adapters
+package com.example.dogs.view.dogList.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dogs.R
-import com.example.dogs.Util.getProgressDrawable
-import com.example.dogs.Util.loadImage
+import com.example.dogs.util.getProgressDrawable
+import com.example.dogs.util.loadImage
 import com.example.dogs.model.DogBreed
-import com.example.dogs.view.DogList.ListFragmentDirections
+import com.example.dogs.view.dogList.ListFragmentDirections
 import kotlinx.android.synthetic.main.item_dog.view.*
 
 class DogListAdapter(val dogsList:ArrayList<DogBreed>):RecyclerView.Adapter<DogListAdapter.DogViewHolder>() {

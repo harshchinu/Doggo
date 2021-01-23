@@ -1,4 +1,4 @@
-package com.example.dogs.Util
+package com.example.dogs.util
 
 import android.content.Context
 import android.net.ConnectivityManager

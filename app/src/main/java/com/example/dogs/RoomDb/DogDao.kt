@@ -1,4 +1,4 @@
-package com.example.dogs.RoomDb
+package com.example.dogs.roomdb
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -8,7 +8,7 @@ import com.example.dogs.model.DogBreed
 @Dao
 interface DogDao {
     @Insert
-    suspend fun insertAll(vararg dogs:DogBreed):List<Long>
+    suspend fun insertAll(vararg dogs: DogBreed):List<Long>
 
     @Query("Select * from dogbreed")
     suspend fun getAllDogs():List<DogBreed>

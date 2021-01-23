@@ -1,10 +1,8 @@
-package com.example.dogs.Repository
+package com.example.dogs.repository
 
-import android.app.Application
-import androidx.room.Database
-import com.example.dogs.NetworkCalls.DogApiService
-import com.example.dogs.RoomDb.DogDao
-import com.example.dogs.RoomDb.DogDatabase
+import com.example.dogs.roomdb.DogDao
+import com.example.dogs.roomdb.DogDatabase
+import com.example.dogs.model.DogBreed
 
 /*class DataRepo(application: Application) {
     private val dogService = DogApiService()
@@ -28,18 +26,29 @@ import com.example.dogs.RoomDb.DogDatabase
 
 }*/
 
-object DataRepo{
+class DataRepo(val database: DogDatabase){
 
-    private val dogService = DogApiService()
-    private var dogDao:DogDao?=null
+    private var dogDao:DogDao=database.DogDao()
 
 
-    fun getDoa(application: Application):DogDao{
-        dogDao=DogDatabase(application).DogDao()
-        return dogDao as DogDao
+    suspend fun getAllDogCount(): Int {
+        return dogDao.getAllDogCount()
     }
 
-    fun getDogInternet():DogApiService{
-        return dogService
+    suspend fun deleteAllDogs(){
+        dogDao.getAllDogs()
     }
+
+    suspend fun insetAllDogs(list:List<DogBreed>) {
+        dogDao.insertAll(*list.toTypedArray())
+    }
+
+    suspend fun getAllDogs(): List<DogBreed> {
+        val result=dogDao.getAllDogs()
+        return result
+    }
+
+    suspend fun getDog(uuid:Int):DogBreed = dogDao.getDog(uuid)
+
+
 }

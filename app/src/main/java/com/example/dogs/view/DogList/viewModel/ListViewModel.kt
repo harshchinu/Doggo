@@ -1,39 +1,25 @@
-package com.example.dogs.view.DogList.viewModel
+package com.example.dogs.view.dogList.viewmodel
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.dogs.NetworkCalls.DogApiService
-import com.example.dogs.NetworkCalls.DogsApi
-import com.example.dogs.Repository.DataRepo
-import com.example.dogs.RoomDb.DogDao
-import com.example.dogs.RoomDb.DogDatabase
-import com.example.dogs.Util.getProgressDrawable
-import com.example.dogs.Util.isNetworkAvailable
+import com.example.dogs.networkcalls.DogApiService
+import com.example.dogs.repository.DataRepo
+import com.example.dogs.roomdb.DogDatabase
+import com.example.dogs.util.isNetworkAvailable
 import com.example.dogs.model.DogBreed
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.observers.DisposableSingleObserver
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 
 class ListViewModel(application: Application): AndroidViewModel(application) {
 
 
 
-    private val dogService = DataRepo.getDogInternet()
-  //  private val DogDoa:DogDao = DataRepo.getDoa(application)
+
+    private val dogService = DogApiService()
+    private val DogRepo = DataRepo(DogDatabase.getDatabase(getApplication()))
     val dogs = MutableLiveData<List<DogBreed>>()
     val dogsLoadError = MutableLiveData<Boolean>()
     val loading = MutableLiveData<Boolean>()
@@ -63,12 +49,12 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
 
     private suspend fun fetchFromDatabase() {
         loading.postValue( true)
-            dataavalalbe.postValue(DogDoa.getAllDogCount())
+            dataavalalbe.postValue(DogRepo.getAllDogCount())
             if(dataavalalbe.value==0){
                 loading.postValue(false)
                 dogsLoadError.postValue(true)
             }else {
-                val dogs = DogDatabase(getApplication()).DogDao().getAllDogs()
+                val dogs = DogRepo.getAllDogs()
                 dogsRetrieved(dogs)
             }
 
@@ -79,14 +65,9 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
 
     private fun storeDogsLocally(list: List<DogBreed>) {
         CoroutineScope(IO).launch {
-            DogDoa.deleteAllDogs()
-            val result = DogDoa.insertAll(*list.toTypedArray())
-            var i = 0
-            while (i < list.size) {
-                list[i].uuid = result[i].toInt()
-                ++i
-            }
-            dogsRetrieved(DogDoa.getAllDogs())
+            DogRepo.deleteAllDogs()
+            DogRepo.insetAllDogs(list)
+            dogsRetrieved(DogRepo.getAllDogs())
         }
     }
 

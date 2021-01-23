@@ -1,4 +1,4 @@
-package com.example.dogs.view.DetailDogs
+package com.example.dogs.view.detaildogs
 
 import android.os.Bundle
 import android.util.Log
@@ -9,14 +9,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.dogs.R
-import com.example.dogs.Util.getProgressDrawable
-import com.example.dogs.Util.loadImage
+import com.example.dogs.util.getProgressDrawable
+import com.example.dogs.util.loadImage
 import com.example.dogs.model.DogBreed
-import com.example.dogs.view.DetailDogs.ViewModel.DetailViewModel
+import com.example.dogs.view.detaildogs.ViewModel.DetailViewModel
 
-import com.example.dogs.view.DogList.viewModel.ListViewModel
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.android.synthetic.main.item_dog.*
 
 
 class DetailFragment : Fragment() {

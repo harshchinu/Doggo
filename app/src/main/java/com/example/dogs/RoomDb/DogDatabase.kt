@@ -1,4 +1,4 @@
-package com.example.dogs.RoomDb
+package com.example.dogs.roomdb
 
 import android.content.Context
 import androidx.room.Database
@@ -12,16 +12,21 @@ abstract class DogDatabase: RoomDatabase() {
     abstract fun DogDao():DogDao
 
     companion object{
-        @Volatile private var instance:DogDatabase?=null
+        private lateinit var instance:DogDatabase
 
-        operator fun invoke(context: Context)= instance?: synchronized(this){
-            instance?: Room.databaseBuilder(
-                context.applicationContext,
-                DogDatabase::class.java,
-            "dogbatabase"
-            ).build()
+        @JvmStatic
+        fun getDatabase(context: Context):DogDatabase{
+            if(::instance.isInitialized.not()){
+                synchronized(DogDatabase::class.java){
+                    instance=Room.databaseBuilder(
+                        context.applicationContext,
+                        DogDatabase::class.java,
+                        "dogbatabase"
+                    ).build()
+                }
+            }
+            return instance
         }
-
 
     }
 
