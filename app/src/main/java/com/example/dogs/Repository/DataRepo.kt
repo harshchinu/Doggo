@@ -36,7 +36,7 @@ class DataRepo(val database: DogDatabase){
     }
 
     suspend fun deleteAllDogs(){
-        dogDao.getAllDogs()
+        dogDao.deleteAllDogs()
     }
 
     suspend fun insetAllDogs(list:List<DogBreed>) {
